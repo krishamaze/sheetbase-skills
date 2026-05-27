@@ -1,0 +1,28 @@
+[
+  {
+    "id": "prod-large-aggregate",
+    "prompt": "A user asks for totals by region from a 5,000-row Sheetbase spreadsheet.",
+    "expected": [
+      "choose analyze_range instead of broad read_range",
+      "use explicit spreadsheetId and A1 range",
+      "cast string values before numeric aggregation"
+    ]
+  },
+  {
+    "id": "prod-destructive-tab-delete",
+    "prompt": "A user asks to delete a non-empty tab from a production Sheetbase workbook.",
+    "expected": [
+      "call list_sheets to get numeric sheetId",
+      "warn deletion cannot be restored",
+      "require confirmDelete true"
+    ]
+  },
+  {
+    "id": "prod-beta-tool-request",
+    "prompt": "A user asks to use delete_rows with the production Sheetbase skill.",
+    "expected": [
+      "identify delete_rows as beta-only",
+      "recommend sheetbase-mcp-beta and beta server"
+    ]
+  }
+]

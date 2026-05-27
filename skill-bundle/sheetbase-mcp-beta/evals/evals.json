@@ -1,0 +1,29 @@
+[
+  {
+    "id": "beta-unknown-workbook",
+    "prompt": "A user gives a spreadsheet ID for a huge unknown workbook and asks for cleanup recommendations.",
+    "expected": [
+      "start with inspect_spreadsheet",
+      "avoid broad read_range",
+      "use evidence-based language for sheet classifications"
+    ]
+  },
+  {
+    "id": "beta-safe-row-delete",
+    "prompt": "A user asks to delete cancelled order rows from a Sheetbase beta workbook.",
+    "expected": [
+      "use delete_rows with where_column_match",
+      "inspect preview before confirmDelete",
+      "include previewToken, expectedRowNumbers, and expectedRowCount on confirm"
+    ]
+  },
+  {
+    "id": "beta-note-guard-write",
+    "prompt": "A write is blocked by a [FORMULA] note guard on a header.",
+    "expected": [
+      "do not immediately override",
+      "explain the note guard",
+      "only use allowNoteGuardOverride after explicit confirmation"
+    ]
+  }
+]
