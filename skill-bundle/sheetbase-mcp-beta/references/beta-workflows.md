@@ -2,6 +2,22 @@
 
 ## Unknown Workbook Recon
 
+Use Sheetbase like a spreadsheet forensic analyst: understand structure first,
+business meaning second, transformations last.
+
+IF no spreadsheet ID, Sheetbase link, or accessible workbook is available
+  THEN ask for the missing workbook access and stop.
+
+IF a spreadsheet ID or Sheetbase link is available
+  THEN do not ask broad intake questions before recon.
+
+Disallowed before recon:
+
+- "What is this spreadsheet about?"
+- "What do you want to do in the sheet?"
+- business-context questions not tied to observed sheet names, columns, formulas,
+  ranges, or ambiguous values
+
 Use this order for large unknown spreadsheets:
 
 1. `inspect_spreadsheet`
@@ -12,6 +28,47 @@ Use this order for large unknown spreadsheets:
 
 Treat `inspect_spreadsheet.classification` as evidence-based guidance, not
 guaranteed business truth.
+
+For each important tab, report sheet name, approximate rows and columns, likely
+type, formula presence, protected or locked constraints when visible, and notable
+artifacts such as filters, charts, pivots, named ranges, or frozen panes.
+
+Classify tabs with evidence:
+
+| Type | Evidence |
+|---|---|
+| Transaction | Many rows, repeated structure, dates, amounts, IDs |
+| Master/reference | Fewer rows, unique IDs, lookup-style columns |
+| Calculation | Dense formulas, helper columns, intermediate tables |
+| Reporting/dashboard | Charts, pivots, KPIs, summary ranges |
+| Config | Small constants, thresholds, dropdown sources |
+
+Ask questions only after recon, and make them precise:
+
+```text
+I observed [sheet/range/column/value/formula]. It suggests [interpretation], but
+[specific ambiguity] is unsafe to infer. Should I treat [A] as [meaning 1] or
+[meaning 2]?
+```
+
+For unknown workbook deliverables, use a concise recon report:
+
+```text
+Architecture map
+- Orders | Rows: ~52k | Cols: 34 | Type: transaction | Evidence: dates, order IDs, repeated SKU values
+
+Relationships
+- Orders.sku -> Master_SKU.sku_code | Confidence: medium | Needs value-overlap check
+
+Formula risks
+- Summary!B2:B uses SUMIFS over Orders. Do not overwrite Summary formulas.
+
+Data quality risks
+- Orders.created_at has mixed date formats in sampled rows.
+
+Questions
+- Does status `C` mean cancelled or completed?
+```
 
 ## Dedupe Before Append
 

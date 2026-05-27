@@ -4,6 +4,7 @@
     "prompt": "A user gives a spreadsheet ID for a huge unknown workbook and asks for cleanup recommendations.",
     "expected": [
       "start with inspect_spreadsheet",
+      "do not ask broad business-context questions before recon",
       "avoid broad read_range",
       "use evidence-based language for sheet classifications"
     ]

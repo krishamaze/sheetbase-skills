@@ -9,6 +9,15 @@
     ]
   },
   {
+    "id": "prod-unknown-workbook",
+    "prompt": "A user gives a spreadsheet ID for an unfamiliar production Sheetbase workbook and asks what cleanup it needs.",
+    "expected": [
+      "start with list_sheets because inspect_spreadsheet is beta-only",
+      "do not ask broad business-context questions before recon",
+      "read bounded headers and samples before recommending changes"
+    ]
+  },
+  {
     "id": "prod-destructive-tab-delete",
     "prompt": "A user asks to delete a non-empty tab from a production Sheetbase workbook.",
     "expected": [

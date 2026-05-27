@@ -33,12 +33,30 @@ IF `read_range` returns a truncation warning
 ## Unknown Workbooks
 
 Production does not include the beta `inspect_spreadsheet` recon tool. For an
-unknown workbook:
+unknown workbook, still use a recon-first workflow.
+
+IF no spreadsheet ID, Sheetbase link, or accessible workbook is available
+  THEN ask for the missing workbook access and stop.
+
+IF a spreadsheet ID or Sheetbase link is available
+  THEN do not ask broad intake questions before recon.
+
+Disallowed before recon:
+
+- "What is this spreadsheet about?"
+- "What do you want to do in the sheet?"
+- business-context questions not tied to observed sheet names, columns, formulas,
+  ranges, or ambiguous values
+
+Production fallback order:
 
 1. Call `list_sheets`.
 2. Read headers and small samples with bounded `read_range` calls.
 3. Use `analyze_range` for large profiling.
 4. Ask precise questions only for ambiguous business codes or destructive edits.
+
+State conclusions with evidence and confidence instead of guessing business
+meaning from the file name alone.
 
 ## Authentication Recovery
 
