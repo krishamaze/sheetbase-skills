@@ -92,3 +92,22 @@ SUM((data ->>'Revenue')::numeric)
 
 Use exact header keys unless `_schema.sqlHeaders[].queryableAliases` lists a
 safe alias.
+
+## Smart Header Contract
+
+Sheetbase treats the first row in the requested range as the SQL header row.
+The exact header text is always queryable.
+
+Supported smart headers:
+
+- A single header cell containing multiline text, such as `SUBCAT_ID\n(extra explanation)`.
+- Collision-free lowercase/snake aliases, such as `SUBCAT_ID` -> `subcat_id` or `Need Colour` -> `need_colour`.
+
+Unsupported for `analyze_range` aliases:
+
+- A physical second subtitle row. It is data, not header metadata.
+- Frozen rows. They do not change SQL header parsing.
+- Header cell notes. They remain metadata for read/write safety, not SQL aliases.
+
+Agents may use only aliases listed in `_schema.sqlHeaders[].queryableAliases`.
+If an alias is not listed, use `_schema.sqlHeaders[].exactKey`.
